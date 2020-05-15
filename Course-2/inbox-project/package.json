@@ -4,11 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "solc": "^0.6.7"
+    "ganache-cli": "^6.9.1",
+    "mocha": "^7.1.2",
+    "solc": "0.4.17",
+    "web3": "^1.2.7"
   }
 }
