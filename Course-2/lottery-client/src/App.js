@@ -50,7 +50,7 @@ function App() {
       <h2>Lottery Contract</h2>
       <p>
         This contract is managed by {manager}.
-        There are currently {players.length} people entered,
+        There are currently {players.length} people in the pool,
         competing to win {web3.utils.fromWei(balance, 'ether')} ether!
       </p>
       <hr />
@@ -118,7 +118,7 @@ function App() {
 //         <h2>Lottery Contract</h2>
 //         <p>
 //           This contract is managed by {this.state.manager}. There are currently{' '}
-//           {this.state.players.length} people entered, competing to win{' '}
+//           {this.state.players.length} people in the pool, competing to win{' '}
 //           {web3.utils.fromWei(this.state.balance, 'ether')} ether!
 //         </p>
 //         <hr />
