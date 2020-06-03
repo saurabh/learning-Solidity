@@ -4,15 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "fs-extra": "^9.0.0",
     "ganache-cli": "^6.9.1",
     "mocha": "^7.2.0",
     "solc": "^0.6.8",
+    "truffle-hdwallet-provider": "^1.0.17",
     "web3": "^1.2.8"
   }
 }

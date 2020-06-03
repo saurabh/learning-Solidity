@@ -24,11 +24,12 @@ const input = {
   },
 };
 
+// const abiString = solc.compile(JSON.stringify(input));
+// const output = JSON.parse(abiString).contracts['Campaign.sol'];
 const output = JSON.parse(solc.compile(JSON.stringify(input))).contracts['Campaign.sol'];
 
 fs.ensureDirSync(buildPath);
 
-console.log(output);
 for (let contract in output) {
   fs.outputJSONSync(
     path.resolve(buildPath, contract + '.json'),
