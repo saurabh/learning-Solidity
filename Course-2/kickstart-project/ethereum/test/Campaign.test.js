@@ -4,8 +4,8 @@ const Web3 = require('web3');
 
 const provider = ganache.provider({ gasLimit: 10000000 });
 const web3 = new Web3(provider);
-const campaignFactoryObject = require('../ethereum/build/CampaignFactory.json');
-const campaignObject = require('../ethereum/build/Campaign.json');
+const campaignFactoryObject = require('../build/CampaignFactory.json');
+const campaignObject = require('../build/Campaign.json');
 
 let accounts;
 let factory;

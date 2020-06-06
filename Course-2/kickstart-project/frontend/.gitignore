@@ -1,6 +1,3 @@
-LAB pdfs
 node_modules
-chaindata
-.env
 .next
 next.config.js
