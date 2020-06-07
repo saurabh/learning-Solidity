@@ -2,9 +2,17 @@ import Web3 from 'web3';
 
 let web3;
 
-if (typeof window !== 'undefined' && typeof window.web3 !== 'undefined') {
-  // We are in the browser and metamask is running,
-  web3 = new Web3(window.web3.currentProvider);
+if (typeof window !== 'undefined') {
+  // Modern dapp browsers...
+  if (typeof window.ethereum !== 'undefined') {
+    // Request account access if needed
+    window.ethereum.enable();
+    web3 = new Web3(window.ethereum);
+  }
+  // Legacy dapp browsers...
+  if (typeof window.web3 !== 'undefined') {
+    web3 = new Web3(window.web3.currentProvider);
+  }
 } else {
   // We are in the browser *OR* the user is not running metamask
   const provider = new Web3.providers.HttpProvider(

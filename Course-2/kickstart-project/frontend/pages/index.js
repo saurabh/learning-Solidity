@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useStateValue } from '../state';
 import web3 from '../utils/getWeb3';
-import addrShortener from '../utils/addrShortener';
 import factoryInstance from '../factory';
+import Layout from '../components/Layout'
+import { Card, Button } from 'semantic-ui-react';
 
-const Index = () => {
+const Index = ({ campaigns }) => {
   const [{ dapp }, dispatch] = useStateValue();
 
   useEffect(() => {
@@ -29,7 +30,7 @@ const Index = () => {
         payload: balance
       });
       // refreshes the dapp when a different address is selected in metamask
-      setInterval(async function() {
+      setInterval(async function () {
         let [addressCheck] = await web3.eth.getAccounts();
         if (addressCheck !== address) {
           address = addressCheck;
@@ -40,23 +41,37 @@ const Index = () => {
         }
       }, 100);
     }
-    
-    async function asyncCalls() {
-      const campaigns = await factoryInstance.methods.getDeployedCampaigns().call();
-      console.log(campaigns);
-    }
-    
-    asyncCalls();
+
     dispatchDapp();
   }, [dapp.web3, dapp.address, dapp.balance]);
-  
+
+  const renderCampaigns = () => {
+    const items = campaigns.map((address) => {
+      return {
+        header: address,
+        description: <a>View Campaign</a>,
+        fluid: true
+      };
+    });
+
+    return <Card.Group items={items} />;
+  };
+
   return (
-    <>
-      { dapp.address && addrShortener(dapp.address) }
-      <hr/>
-      { dapp.web3 ? dapp.web3.utils.fromWei(String(dapp.balance), 'ether') : dapp.balance }
-    </>
-  )
+    <Layout>
+      <h3>Open Campaigns</h3>
+      <Button content='Create Campaign' icon='add circle' primary floated='right'/>
+      {renderCampaigns()}
+    </Layout>
+  );
+};
+
+export async function getStaticProps() {
+  const campaigns = await factoryInstance.methods.getDeployedCampaigns().call();
+
+  return {
+    props: { campaigns }
+  };
 }
 
 export default Index;
