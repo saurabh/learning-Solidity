@@ -1,21 +1,93 @@
+import { useState, useEffect } from 'react';
 import { useStateValue } from '../state';
-import { Menu } from 'semantic-ui-react';
+import Link from 'next/link';
+import { Menu, Message, Button } from 'semantic-ui-react';
 import addrShortener from '../utils/addrShortener';
+import web3 from '../utils/getWeb3';
 
 const Header = () => {
   const [{ dapp }, dispatch] = useStateValue();
+  const [errorMessage, setError] = useState('');
+
+  useEffect(() => {
+    async function dispatchDapp() {
+      try {
+        dispatch({
+          type: 'SET_WEB3',
+          payload: web3
+        });
+        const network = await web3.eth.net.getId();
+        dispatch({
+          type: 'SET_NETWORK',
+          payload: network
+        });
+        if (ethereum.selectedAddress) {
+          let [address] = await ethereum.enable();
+          dispatch({
+            type: 'SET_ADDRESS',
+            payload: address
+          });
+          const balance = await web3.eth.getBalance(address);
+          dispatch({
+            type: 'SET_BALANCE',
+            payload: balance
+          });
+        }
+        // refreshes the dapp when a different address is selected in metamask
+        ethereum.on('accountsChanged', (accounts) => {
+          if (accounts) {
+            dispatch({
+              type: 'SET_ADDRESS',
+              payload: accounts[0]
+            });
+          } else {
+            dispatch({
+              tyle: 'CLEAR_ACCOUNT'
+            });
+          }
+        });
+      } catch (err) {
+        setError(err.message);
+      }
+    }
+
+    dispatchDapp();
+  }, [dapp.address]);
+
+  const handleSignInClick = async () => {
+    try {
+      let [address] = await ethereum.enable();
+      dispatch({
+        type: 'SET_ADDRESS',
+        payload: address
+      });
+    } catch (err) {
+      setError(err.message);
+    }
+  };
 
   return (
-    <Menu style={{ marginTop: '10px' }}>
-      <Menu.Item>EthStarter</Menu.Item>
-      <Menu.Menu position='right'>
-        <Menu.Item>Campaigns</Menu.Item>
-        <Menu.Item>+</Menu.Item>
-        <Menu.Item>
-          {dapp.balance < 0 ? 'Sign In' : addrShortener(dapp.address)}
-        </Menu.Item>
-      </Menu.Menu>
-    </Menu>
+    <>
+      <Menu style={{ marginTop: '10px' }}>
+        <Link href='/'>
+          <a>
+            <Menu.Item>EthStarter</Menu.Item>
+          </a>
+        </Link>
+        <Menu.Menu position='right'>
+          <Menu.Item>Campaigns</Menu.Item>
+          <Menu.Item>+</Menu.Item>
+          <Menu.Item onClick={handleSignInClick} onKeyUp={handleSignInClick}>
+            {dapp.address === undefined
+              ? 'Connect Wallet'
+              : addrShortener(dapp.address)}
+          </Menu.Item>
+        </Menu.Menu>
+      </Menu>
+      {errorMessage && (
+        <Message error header='Wallet not connected!' content={errorMessage} />
+      )}
+    </>
   );
 };
 

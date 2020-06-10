@@ -1,11 +1,14 @@
-import Header from './Header';
+import dynamic from 'next/dynamic';
 import { Container } from 'semantic-ui-react';
+const Header = dynamic(() => import('./Header'), { ssr: false })
 
 export default ({ children }) => {
   return (
-    <Container>
+    <>
       <Header />
-      <main>{children}</main>
-    </Container>
+      <Container>
+        <main>{children}</main>
+      </Container>
+    </>
   );
 };

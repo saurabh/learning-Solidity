@@ -5,20 +5,22 @@ let web3;
 if (typeof window !== 'undefined') {
   // Modern dapp browsers...
   if (typeof window.ethereum !== 'undefined') {
-    // Request account access if needed
-    window.ethereum.enable();
     web3 = new Web3(window.ethereum);
   }
   // Legacy dapp browsers...
-  if (typeof window.web3 !== 'undefined') {
+  else if (typeof window.web3 !== 'undefined') {
+    // Use Mist/MetaMask's provider.
     web3 = new Web3(window.web3.currentProvider);
-  }
-} else {
-  // We are in the browser *OR* the user is not running metamask
+    console.log('Injected web3 detected.');
+  }      
+}        
+// Fallback to Infura Node.
+else {
   const provider = new Web3.providers.HttpProvider(
-    `https://rinkeby.infura.io/v3/${process.env.INFURA_ID}` // Insert INFURA URL here
+    `https://rinkeby.infura.io/v3/${process.env.INFURA_ID}`
   );
   web3 = new Web3(provider);
 }
+
 
 export default web3;
