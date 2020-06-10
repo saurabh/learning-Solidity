@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useStateValue } from '../state';
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
-import getWeb3 from '../utils/getWeb3';
+import Layout from '../components/Layout';
 import factoryConstructor from '../factory';
-const Layout = dynamic(() => import('../components/Layout'), { ssr: false })
 import { Card, Button } from 'semantic-ui-react';
 
 const Index = ({ campaigns }) => {

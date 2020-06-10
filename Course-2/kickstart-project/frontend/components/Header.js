@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useStateValue } from '../state';
 import Link from 'next/link';
-import { Menu, Message, Button } from 'semantic-ui-react';
+import { Menu, Message } from 'semantic-ui-react';
 import addrShortener from '../utils/addrShortener';
 import web3 from '../utils/getWeb3';
 
@@ -48,6 +48,7 @@ const Header = () => {
         });
       } catch (err) {
         setError(err.message);
+        setTimeout(() => setError(''), 3000);
       }
     }
 
@@ -63,6 +64,7 @@ const Header = () => {
       });
     } catch (err) {
       setError(err.message);
+      setTimeout(() => setError(''), 3000);
     }
   };
 
