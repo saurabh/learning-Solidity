@@ -1,14 +1,14 @@
 const MiningIndicator = () => {
   return (
     <div>
-      <div className="sp sp-loadbar"></div>
+      <div className='sp sp-loadbar'></div>
       <style>{`
         .sp-loadbar {
           width: 50px;
           height: 18px;
-          border: 1px #FFF solid;
+          border: 1px #949494 solid;
           border-radius: 4px;
-          background: linear-gradient(-60deg, transparent 0%, transparent 50%, #FFF 50%, #FFF 75%, transparent 75%, transparent);
+          background: linear-gradient(-60deg, transparent 0%, transparent 50%, #0085cd 50%, #0085cd 75%, transparent 75%, transparent);
           background-size: 20px 30px;
           background-position: 0px 0px;
           -webkit-animation: spLoadBar 0.8s infinite linear;
@@ -24,7 +24,7 @@ const MiningIndicator = () => {
         }
       `}</style>
     </div>
-  )
-}
+  );
+};
 
-export default MiningIndicator
+export default MiningIndicator;

@@ -39,6 +39,16 @@ contract Campaign {
         manager = _manager;
         minimumContribution = _minimumContribution;
     }
+
+    function getSummary() public view returns(uint, uint, uint, uint, address) {
+        return (
+            minimumContribution,
+            address(this).balance,
+            requests.length,
+            approversCount,
+            manager
+        );
+    }
     
     function contribute() public payable {
         require(msg.value >= minimumContribution, "Contribution is below the required amount");
@@ -79,5 +89,9 @@ contract Campaign {
  
         request.recipient.transfer(request.value);
         request.complete = true;
+    }
+
+    function getRequestsCount() public view returns(uint) {
+        return requests.length;
     }
 }

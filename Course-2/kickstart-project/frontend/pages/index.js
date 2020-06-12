@@ -12,7 +12,8 @@ const Index = ({ campaigns }) => {
     const items = campaigns.map((address) => {
       return {
         header: address,
-        description: <a>View Campaign</a>,
+        description:(
+        <Link href={`/campaigns/${address}`}><a>View Campaign</a></Link>),
         fluid: true
       };
     });

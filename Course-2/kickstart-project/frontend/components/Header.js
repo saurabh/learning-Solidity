@@ -21,7 +21,7 @@ const Header = () => {
           type: 'SET_NETWORK',
           payload: network
         });
-        if (ethereum.selectedAddress) {
+        if (await ethereum._metamask.isApproved()) {
           let [address] = await ethereum.enable();
           dispatch({
             type: 'SET_ADDRESS',
@@ -77,8 +77,16 @@ const Header = () => {
           </a>
         </Link>
         <Menu.Menu position='right'>
-          <Menu.Item>Campaigns</Menu.Item>
-          <Menu.Item>+</Menu.Item>
+          <Link href='/'>
+            <a>
+              <Menu.Item>Campaigns</Menu.Item>
+            </a>
+          </Link>
+          <Link href='/campaigns/new'>
+            <a>
+              <Menu.Item>+</Menu.Item>
+            </a>
+          </Link>
           <Menu.Item onClick={handleSignInClick} onKeyUp={handleSignInClick}>
             {dapp.address === undefined
               ? 'Connect Wallet'
