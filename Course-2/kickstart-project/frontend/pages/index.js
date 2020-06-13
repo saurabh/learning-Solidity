@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import { useStateValue } from '../state';
 import Link from 'next/link';
 import Layout from '../components/Layout';
@@ -12,8 +11,11 @@ const Index = ({ campaigns }) => {
     const items = campaigns.map((address) => {
       return {
         header: address,
-        description:(
-        <Link href={`/campaigns/${address}`}><a>View Campaign</a></Link>),
+        description: (
+          <Link href='/campaigns/[campaign]' as={`/campaigns/${address}`}>
+            <a>View Campaign</a>
+          </Link>
+        ),
         fluid: true
       };
     });
