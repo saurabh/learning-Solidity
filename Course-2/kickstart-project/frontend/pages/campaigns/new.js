@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import { useStateValue } from '../../state';
 import Layout from '../../components/Layout';
 import { Button, Form, Input, Message } from 'semantic-ui-react';
-import MiningIndicator from '../../components/MiningIndicator.js';
 import factoryConstructor from '../../factory';
 
 const NewCampaign = () => {
@@ -14,11 +13,12 @@ const NewCampaign = () => {
   const [loading, isLoading] = useState(false);
 
   const onSubmit = async (e) => {
+    e.preventDefault();
     isLoading(true);
     setError('');
+    let factoryInstance = await factoryConstructor();
+
     try {
-      e.preventDefault();
-      let factoryInstance = await factoryConstructor();
       await factoryInstance.methods
       .createCampaign(dapp.web3.utils.toWei(minimumContribution, 'ether'))
       .send({ from: dapp.address })
@@ -45,12 +45,6 @@ const NewCampaign = () => {
 
   return (
     <Layout>
-      {dapp.currentlyMining && (
-        <div className='mining-state'>
-          <span>Mining... &nbsp;</span>
-          <MiningIndicator />
-        </div>
-      )}
       <h3>Create a new Campaign</h3>
       <Form onSubmit={onSubmit} error={!!errorMessage}>
         <Form.Field>

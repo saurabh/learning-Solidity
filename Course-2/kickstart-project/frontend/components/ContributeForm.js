@@ -42,13 +42,13 @@ const ContributeForm = ({ campaignAddress }) => {
       setError(err.message);
       setTimeout(() => setError(''), 5000);
     }
-    
+
     setValue('');
     isLoading(false);
   };
 
   return (
-    <Form onSubmit={handleFormSubmit} error={!!errorMessage} >
+    <Form onSubmit={handleFormSubmit} error={!!errorMessage}>
       <Form.Field>
         <label>Minimum Contribution</label>
         <Input
@@ -58,8 +58,11 @@ const ContributeForm = ({ campaignAddress }) => {
           labelPosition='right'
         />
         <Message error header='Oops!' content={errorMessage} />
-        <Button loading={loading} primary>Contribute!</Button>
+        {' '}
       </Form.Field>
+      <Button loading={loading} primary>
+        Contribute!
+      </Button>
     </Form>
   );
 };

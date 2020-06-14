@@ -1,11 +1,9 @@
-import { useStateValue } from '../state';
 import Link from 'next/link';
 import Layout from '../components/Layout';
 import factoryConstructor from '../factory';
 import { Card, Button } from 'semantic-ui-react';
 
 const Index = ({ campaigns }) => {
-  const [{ dapp }, dispatch] = useStateValue();
 
   const renderCampaigns = () => {
     const items = campaigns.map((address) => {

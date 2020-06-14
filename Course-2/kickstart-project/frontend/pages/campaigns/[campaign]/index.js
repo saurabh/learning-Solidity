@@ -1,8 +1,6 @@
-import { useStateValue } from '../../../state';
 import Link from 'next/link';
 import web3 from '../../../utils/getWeb3';
 import Layout from '../../../components/Layout.js';
-import MiningIndicator from '../../../components/MiningIndicator';
 import { Grid, Card, Button } from 'semantic-ui-react';
 import factoryConstructor from '../../../factory';
 import campaignConstructor from '../../../campaign';
@@ -16,8 +14,6 @@ const Campaign = ({
   approversCount,
   manager
 }) => {
-  const [{ dapp }, dispatch] = useStateValue();
-
   const renderCards = () => {
     const items = [
       {
@@ -61,32 +57,30 @@ const Campaign = ({
 
   return (
     <Layout>
-      {dapp.currentlyMining && (
-        <div className='mining-state'>
-          <span>Mining... &nbsp;</span>
-          <MiningIndicator />
-        </div>
-      )}
       <h3>Campaign</h3>
       <Grid>
-        <Grid.Column width={10}>
-          {renderCards()}
-          <Link href='/campaigns/[campaign]/requests' as={`/campaigns/${address}/requests`}>
-            <a>
-              <Button primary>View Requests</Button>
-            </a>
-          </Link>
-        </Grid.Column>
-        <Grid.Column width={6}>
-          <ContributeForm campaignAddress={address} />
-        </Grid.Column>
+        <Grid.Row>
+          <Grid.Column width={12}>{renderCards()}</Grid.Column>
+          <Grid.Column width={4}>
+            <ContributeForm campaignAddress={address} />
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column>
+            <Link href={`/campaigns/${address}/requests`}>
+              <a>
+                <Button primary>View Requests</Button>
+              </a>
+            </Link>
+          </Grid.Column>
+        </Grid.Row>
       </Grid>
     </Layout>
   );
 };
 
 export async function getStaticProps({ params }) {
-  let campaign = await campaignConstructor(params.campaign);
+  const campaign = await campaignConstructor(params.campaign);
   const campaignSummary = await campaign.methods.getSummary().call();
 
   return {
@@ -102,7 +96,7 @@ export async function getStaticProps({ params }) {
 }
 
 export async function getStaticPaths() {
-  let factoryInstance = await factoryConstructor();
+  const factoryInstance = await factoryConstructor();
   const campaigns = await factoryInstance.methods.getDeployedCampaigns().call();
 
   const paths = campaigns.map((address) => `/campaigns/${address}`);

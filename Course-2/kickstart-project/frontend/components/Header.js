@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useStateValue } from '../state';
 import Link from 'next/link';
 import { Menu, Message } from 'semantic-ui-react';
+import MiningIndicator from './MiningIndicator';
 import addrShortener from '../utils/addrShortener';
 import web3 from '../utils/getWeb3';
 
@@ -97,6 +98,20 @@ const Header = () => {
       {errorMessage && (
         <Message error header='Wallet not connected!' content={errorMessage} />
       )}
+      {dapp.currentlyMining && (
+        <div className='mining-state'>
+          <span>Mining... &nbsp;</span>
+          <MiningIndicator />
+        </div>
+      )}
+      <style jsx>{`
+        .mining-state {
+          position: absolute;
+          right: 0;
+          display: flex;
+          padding: 0 10px 0 0;
+        }
+      `}</style>
     </>
   );
 };
