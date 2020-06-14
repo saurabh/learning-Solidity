@@ -12,7 +12,7 @@ const Index = ({ campaigns }) => {
       return {
         header: address,
         description: (
-          <Link href='/campaigns/[campaign]' as={`/campaigns/${address}`}>
+          <Link href={`/campaigns/${address}`}>
             <a>View Campaign</a>
           </Link>
         ),

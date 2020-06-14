@@ -64,14 +64,6 @@ const NewCampaign = () => {
         <Message error header='Oops!' content={errorMessage} />
         <Button loading={loading} primary>Create!</Button>
       </Form>
-      <style jsx>{`
-        .mining-state {
-          position: absolute;
-          right: 0;
-          display: flex;
-          padding: 10px 10px 0 0;
-        }
-      `}</style>
     </Layout>
   );
 };

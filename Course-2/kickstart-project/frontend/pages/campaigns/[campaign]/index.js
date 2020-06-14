@@ -1,11 +1,15 @@
-import web3 from '../../utils/getWeb3';
-import { useStateValue } from '../../state';
-import Layout from '../../components/Layout.js';
-import { Card } from 'semantic-ui-react';
-import factoryConstructor from '../../factory';
-import campaignConstructor from '../../campaign';
+import { useStateValue } from '../../../state';
+import Link from 'next/link';
+import web3 from '../../../utils/getWeb3';
+import Layout from '../../../components/Layout.js';
+import MiningIndicator from '../../../components/MiningIndicator';
+import { Grid, Card, Button } from 'semantic-ui-react';
+import factoryConstructor from '../../../factory';
+import campaignConstructor from '../../../campaign';
+import ContributeForm from '../../../components/ContributeForm';
 
 const Campaign = ({
+  address,
   minimumContribution,
   balance,
   requestsCount,
@@ -47,8 +51,7 @@ const Campaign = ({
       {
         header: web3.utils.fromWei(balance, 'ether'),
         meta: 'Campaign Balance (in ether)',
-        description:
-          'This is how much ether this campaign has raised',
+        description: 'This is how much ether this campaign has raised',
         style: { overflowWrap: 'break-word' }
       }
     ];
@@ -58,18 +61,37 @@ const Campaign = ({
 
   return (
     <Layout>
+      {dapp.currentlyMining && (
+        <div className='mining-state'>
+          <span>Mining... &nbsp;</span>
+          <MiningIndicator />
+        </div>
+      )}
       <h3>Campaign</h3>
-      {renderCards()}
+      <Grid>
+        <Grid.Column width={10}>
+          {renderCards()}
+          <Link href='/campaigns/[campaign]/requests' as={`/campaigns/${address}/requests`}>
+            <a>
+              <Button primary>View Requests</Button>
+            </a>
+          </Link>
+        </Grid.Column>
+        <Grid.Column width={6}>
+          <ContributeForm campaignAddress={address} />
+        </Grid.Column>
+      </Grid>
     </Layout>
   );
 };
 
 export async function getStaticProps({ params }) {
-  let campaignInstance = await campaignConstructor(params.campaign);
-  const campaignSummary = await campaignInstance.methods.getSummary().call();
+  let campaign = await campaignConstructor(params.campaign);
+  const campaignSummary = await campaign.methods.getSummary().call();
 
   return {
     props: {
+      address: params.campaign,
       minimumContribution: campaignSummary[0],
       balance: campaignSummary[1],
       requestsCount: campaignSummary[2],
