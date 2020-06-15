@@ -52,8 +52,10 @@ contract Campaign {
     
     function contribute() public payable {
         require(msg.value >= minimumContribution, "Contribution is below the required amount");
-        approvers[msg.sender] = true;
-        approversCount++;
+        if (!approvers[msg.sender]) {
+            approvers[msg.sender] = true;
+            approversCount++;
+        }
     }
     
     function createRequest(string memory _description, uint _value, address payable _recipient) public onlyManager {
@@ -85,7 +87,7 @@ contract Campaign {
         Request storage request = requests[index];
         
         require(!request.complete, "This request is marked completed.");
-        require(request.approvalCount > (approversCount / 2), "Not enough approvals.");
+        require(request.approvalCount >= (approversCount / 2), "Not enough approvals.");
  
         request.recipient.transfer(request.value);
         request.complete = true;
