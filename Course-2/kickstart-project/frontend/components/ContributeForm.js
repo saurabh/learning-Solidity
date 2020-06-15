@@ -35,8 +35,14 @@ const ContributeForm = ({ campaignAddress }) => {
           dispatch({
             type: 'SET_CURRENTLY_MINING',
             payload: false
-          });
+          })
           router.replace(`/campaigns/${campaignAddress}`);
+        })
+        .on('error', () => {
+          dispatch({
+            type: 'SET_CURRENTLY_MINING',
+            payload: false
+          });
         });
     } catch (err) {
       setError(err.message);
@@ -57,8 +63,7 @@ const ContributeForm = ({ campaignAddress }) => {
           label='ether'
           labelPosition='right'
         />
-        <Message error header='Oops!' content={errorMessage} />
-        {' '}
+        <Message error header='Oops!' content={errorMessage} />{' '}
       </Form.Field>
       <Button loading={loading} primary>
         Contribute!

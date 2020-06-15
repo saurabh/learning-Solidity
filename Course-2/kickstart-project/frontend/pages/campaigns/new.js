@@ -33,6 +33,12 @@ const NewCampaign = () => {
           type: 'SET_CURRENTLY_MINING',
           payload: false
         });
+      })
+      .on('error', () => {
+        dispatch({
+          type: 'SET_CURRENTLY_MINING',
+          payload: false
+        });
       });
 
       router.push('/');

@@ -24,7 +24,7 @@ const NewRequest = ({ address }) => {
 
     try {
       await campaign.methods
-        .createRequest(description, dapp.web3.utils.toWei(value, 'wei'), recipient)
+        .createRequest(description, dapp.web3.utils.toWei(value, 'ether'), recipient)
         .send({ from: dapp.address })
         .on('transactionHash', () => {
           dispatch({
@@ -33,6 +33,12 @@ const NewRequest = ({ address }) => {
           });
         })
         .on('receipt', () => {
+          dispatch({
+            type: 'SET_CURRENTLY_MINING',
+            payload: false
+          });
+        })
+        .on('error', () => {
           dispatch({
             type: 'SET_CURRENTLY_MINING',
             payload: false
