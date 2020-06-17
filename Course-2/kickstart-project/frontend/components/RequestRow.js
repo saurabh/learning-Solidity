@@ -1,5 +1,3 @@
-import { useState } from 'react';
-import web3 from '../utils/getWeb3';
 import { useRouter } from 'next/router';
 import { useStateValue } from '../state';
 import { Table, Button } from 'semantic-ui-react';
@@ -69,7 +67,7 @@ const RequestRow = ({ id, request, campaignAddress, approversCount }) => {
     <Row disabled={complete} positive={readyToFinalize && !complete}>
       <Cell>{id}</Cell>
       <Cell>{description}</Cell>
-      <Cell>{web3.utils.fromWei(value, 'ether')}</Cell>
+      <Cell>{dapp.web3.utils.fromWei(value, 'ether')}</Cell>
       <Cell>{recipient}</Cell>
       <Cell>
         {approvalCount}/{approversCount}

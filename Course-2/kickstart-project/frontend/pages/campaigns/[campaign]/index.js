@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import web3 from '../../../utils/getWeb3';
+import { useStateValue } from '../../../state';
 import Layout from '../../../components/Layout.js';
 import { Grid, Card, Button } from 'semantic-ui-react';
 import factoryConstructor from '../../../factory';
@@ -14,6 +14,8 @@ const Campaign = ({
   approversCount,
   manager
 }) => {
+  const [{ dapp }, dispatch] = useStateValue();
+
   const renderCards = () => {
     const items = [
       {
@@ -24,7 +26,7 @@ const Campaign = ({
         style: { overflowWrap: 'break-word' }
       },
       {
-        header: web3.utils.fromWei(minimumContribution, 'ether'),
+        header: dapp.web3.utils.fromWei(minimumContribution, 'ether'),
         meta: 'Minimum Contribution (in ether)',
         description:
           'You must contribute at least this much ether to be a part of this crowdfunding campaign',
@@ -45,7 +47,7 @@ const Campaign = ({
         style: { overflowWrap: 'break-word' }
       },
       {
-        header: web3.utils.fromWei(balance, 'ether'),
+        header: dapp.web3.utils.fromWei(balance, 'ether'),
         meta: 'Campaign Balance (in ether)',
         description: 'This is how much ether this campaign has raised',
         style: { overflowWrap: 'break-word' }
